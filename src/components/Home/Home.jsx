@@ -17,13 +17,13 @@ const Home = () => {
           </button>
         </div>
         <div>
-          
+
         </div>
       </div>
-      <div className="w-full flex flex-col gap-7 myScroll p-5 h-[calc(100vh-100px)] overflow-y-scroll bg-gradient-to-t from-[#121212] to-[#222] rounded-lg">
+      <div className="w-full flex flex-col gap-7 myScroll p-5 h-[calc(100vh-168px)] overflow-y-scroll bg-gradient-to-t from-[#121212] to-[#222] rounded-lg">
         <Cards title="Popular Artists" circle={true} playlist={state.artists.slice(0, 6)} />
         <Cards title="Popular Albums and singles" circle={false} playlist={state.artists.slice(6, 12)} />
-        <Cards title="Popular radio" circle={false} playlist={state.artists.slice(8, 14)} />
+        <Cards title="Popular radio" circle={false} playlist={state.artists.slice(9, 15)} />
       </div>
     </div>
   );

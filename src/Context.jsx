@@ -1,150 +1,17 @@
 import { createContext, useReducer } from "react";
 import {
   Adele,
-  Billie,
-  Eminem,
-  Fiftycent,
-  Jony,
-  Konsta,
-  Ladygaga,
-  Lanadelrey,
-  Lola,
-  Miyagi,
-  Shahlo,
-  Sheralijorayev,
-  Theweekend,
-  Xcho,
+  LanaMusic,
+  Mockingbird,
+  Twenty,
+  Twopac,
+  Weeknd,
 } from "./assets";
 
 const initialState = {
-  artists: [
-    {
-      id: 1,
-      artist: "Artist",
-      image: Fiftycent,
-      title: "50 cent",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 2,
-      artist: "Artist",
-      image: Adele,
-      title: "Adele",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 3,
-      artist: "Artist",
-      image: Billie,
-      title: "Billie Eilish",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 4,
-      artist: "Artist",
-      image: Eminem,
-      title: "Eminem",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 5,
-      artist: "Artist",
-      image: Jony,
-      title: "Jony",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 6,
-      artist: "Artist",
-      image: Konsta,
-      title: "Konsta",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 7,
-      artist: "Artist",
-      image: Ladygaga,
-      title: "Ladygaga",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 8,
-      artist: "Artist",
-      image: Lanadelrey,
-      title: "Lana Del Rey",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 9,
-      artist: "Artist",
-      image: Lola,
-      title: "Lola Ahmedova",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 10,
-      artist: "Artist",
-      image: Shahlo,
-      title: "Shahlo Ahmedova",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 11,
-      artist: "Artist",
-      image: Miyagi,
-      title: "Miyagi&Endspiel",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 12,
-      artist: "Artist",
-      image: Sheralijorayev,
-      title: "Sherali Jo'rayev",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 13,
-      artist: "Artist",
-      image: Theweekend,
-      title: "The Weeknd",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-    {
-      id: 14,
-      artist: "Artist",
-      image: Xcho,
-      title: "XCHO",
-      musics: [],
-      albums: [],
-      listeners: 117368051,
-    },
-  ],
+  artists: [],
+  audio: null,
+  action: "pause",
   albums: [
     {
       title: "The Avairy",
@@ -193,12 +60,64 @@ const initialState = {
       ],
     },
   ],
+  currentTime: 0,
+  audio_id: null,
+  musics: [
+    {
+      id: "7dGJo4pcD2V6oG8kP0tJRR",
+      src: Mockingbird,
+      title: "Mockingbird",
+      time: 251,
+    },
+    {
+      id: "00FQb4jTyendYWaN8pK0wa",
+      src: LanaMusic,
+      title: "Mountain dew",
+      time: 226,
+    },
+    {
+      id: "4dpARuHxo51G3z768sgnrY",
+      src: Adele,
+      title: "Rolling in the deep",
+      time: 228,
+    },
+    {
+      id: "1ZwdS5xdxEREPySFridCfh",
+      src: Twopac,
+      title: "All eyes on me",
+      time: 307,
+    },
+    {
+      id: "3YQKmKGau1PzlVlkL1iodx",
+      src: Twenty,
+      title: "Heathens",
+      time: 195,
+    },
+    {
+      id: "1Xyo4u8uXC1ZmMpatF05PJ",
+      src: Weeknd,
+      title: "Starboy",
+      time:230,
+    },
+  ]
 };
 
 export const Context = createContext();
 
 const reducer = (state = initialState, actions) => {
   const { type, payload } = actions;
+  switch (type) {
+    case "SET_ARTISTS":
+      return {...state, artists: payload}
+    case "SET_AUDIO":
+      return {...state, audio: payload.audio, audio_id: payload.id}
+    case "SET_ACTION":
+      return {...state, action: payload}
+    case "SET_CURRENTTIME":
+      return {...state, currentTime: payload}
+    default:
+      return {state}
+  }
 };
 
 const Provider = ({ children }) => {

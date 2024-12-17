@@ -42,7 +42,7 @@ const Navbar = () => {
         </div>
         <div className="font-bold text-sm">
           <button className="px-8 py-3.5 text-gray-400 hover:scale-[102%] hover:text-white">Sign up</button>
-          <button className="text-black rounded-full bg-white px-9 py-3.5 hover:scale-[103%] hover:bg-slate-200">Log in</button>
+          <Link to={"/login"} className="text-black rounded-full bg-white px-9 py-3.5 hover:scale-[103%] hover:bg-slate-200">Log in</Link>
         </div>
       </div>
     </nav>

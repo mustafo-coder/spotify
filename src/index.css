@@ -40,3 +40,30 @@ body {
 .nav-search:hover .nav-glass-icon{
   color: white !important;
 }
+
+.player {
+  -webkit-appearance: none;
+  background: #4D4D4D;
+  outline: none;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+.player:hover {
+  background: #1DB954;
+}
+
+.player::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background: white;
+  cursor: pointer;
+}
+
+.player::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: white;
+  cursor: pointer;
+}
