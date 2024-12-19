@@ -1,19 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Context } from '../Context'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { set_action, set_audio, set_currentTime, set_volume } from '../slices/songSlice'
 
 const Player = () => {
-  const { state, dispatch } = useContext(Context)
+  const state = useSelector(state => state.song)
+  const dispatch = useDispatch()
   const [data, setData] = useState(null)
   const [playerTime, setPlayerTime] = useState(0)
   const [count, setCount] = useState(0)
+  const [volume, setVolume] = useState(state.audio_volume)
+
   useEffect(() => {
-    const artist = state.artists.find((a, i) => a.id == state.audio.id);
+    const artist = state.artists.find((a, i) => a.id == state?.audio?.id);
     if (artist) {
       setData(artist)
     }
     setPlayerTime(0)
     state.musics.map((m, i) => {
-      if(m.id == state?.audio?.id){
+      if (m.id == state?.audio?.id) {
         setCount(i)
       }
     })
@@ -21,16 +25,16 @@ const Player = () => {
 
   const playHandler = () => {
     if (state.audio) {
-      dispatch({ type: "SET_ACTION", payload: "play" })
+      dispatch(set_action("play"))
     }
   }
   const pauseHandler = () => {
     if (state.audio) {
-      dispatch({ type: "SET_ACTION", payload: "pause" })
+      dispatch(set_action("pause"))
     }
   }
   const setAudio = (c) => {
-    dispatch({ type: "SET_AUDIO", payload: { audio: state.musics[c], id: state.musics[c].id } })
+    dispatch(set_audio({ audio: state.musics[c], id: state.musics[c].id }))
   }
 
   const nextHandler = () => {
@@ -54,9 +58,26 @@ const Player = () => {
     const second = time - (minute * 60)
     return `${minute}:${second}`
   }
+  const volumeRate = (rate) => {
+    if(rate == 0){
+      return "fa-volume-xmark"
+    }
+    else if(rate > 0 && rate < 30){
+      return "fa-volume-off"
+    }else if(rate > 30 && rate < 70){
+      return "fa-volume-low"
+    }else{
+      return "fa-volume-high"
+    }
+  }
+  
   useEffect(() => {
-    dispatch({ type: "SET_CURRENTTIME", payload: playerTime })
+    dispatch(set_currentTime(playerTime))
   }, [playerTime])
+
+  useEffect(() => {
+    dispatch(set_volume(volume))
+  }, [volume])
   return (
     <div className='fixed flex justify-between px-5 bottom-0 start-0 end-0 bg-black py-5'>
       <div className='flex gap-4 items-center'>
@@ -105,7 +126,26 @@ const Player = () => {
           <p>{state.audio && getTime(state.audio.time)}</p>
         </div>
       </div>
-      <div></div>
+      <ul className='flex items-center gap-4'>
+        <li className='text-[8px] border-2 border-secondary hover:scale-[102%] text-secondary px-[3px] py-[2px] rounded-[2px] hover:border-white hover:text-white'>
+          <i className='fa fa-play'></i>
+        </li>
+        <li className='hover:scale-[102%] text-secondary hover:text-white'>
+          <i className='fa fa-microphone'></i>
+        </li>
+        <li className='hover:scale-[102%] text-secondary hover:text-white'>
+          <i className='fa fa-bars-progress'></i>
+        </li>
+        <li className='hover:scale-[102%] text-secondary hover:text-white'>
+          <i className='fa fa-computer'></i>
+        </li>
+        <li className='overflow-hidden flex items-center gap-2 text-secondary hover:text-white'>
+          <label className="player w-[140px]">
+            <input onChange={(e) => setVolume(e.target.value)} max={100} min={0} value={volume} type="range" className="level" />
+            <i className={`fa volume ${volumeRate(volume)}`}></i>
+          </label>
+        </li>
+      </ul>
     </div>
   )
 }

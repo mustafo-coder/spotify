@@ -1,9 +1,12 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Context } from '../Context'
+import { set_action, set_audio, set_currentTime } from "../slices/songSlice"
+import { useDispatch, useSelector } from 'react-redux'
 
 const Card = ({ card, circle }) => {
-  const { state, dispatch } = useContext(Context)
+  const state = useSelector(state => state.song)
+  const dispatch = useDispatch()
+
   const [play, setPlay] = useState(false)
 
   const playHandler = () => {
@@ -12,17 +15,17 @@ const Card = ({ card, circle }) => {
     const randomOwn = ownMusic[Math.random() * ownMusic.length | 0]
     if (play) {
       if (state.audio_id == card.id) {
-        dispatch({ type: "SET_ACTION", payload: "pause" })
+        dispatch(set_action("pause"))
       } else {
-        dispatch({ type: "SET_AUDIO", payload: { id: card.id, audio: randomOwn || randomMusic } })
-        dispatch({ type: "SET_ACTION", payload: "play" })
+        dispatch(set_audio({ id: card.id, audio: randomOwn || randomMusic }))
+        dispatch(set_action("play"))
       }
     } else {
       if (state.audio_id != card.id) {
-        dispatch({ type: "SET_CURRENTTIME", payload: 0 })
+        dispatch(set_currentTime(0))
       }
-      dispatch({ type: "SET_AUDIO", payload: { id: card.id, audio: randomOwn || randomMusic } })
-      dispatch({ type: "SET_ACTION", payload: "play" })
+      dispatch(set_audio({ id: card.id, audio: randomOwn || randomMusic }))
+      dispatch(set_action("play"))
     }
   }
   useEffect(() => {
@@ -32,7 +35,7 @@ const Card = ({ card, circle }) => {
       setPlay(false)
     }
   }, [state.action])
-  
+
   return (
     <div className='w-full card relative text-white hover:bg-gradient-to-t mt-2 p-3 rounded-lg from-[#2d2d2d] to-transparent'>
       <button onClick={playHandler} className={`bg-[#1ED760] hover:bg-[#3BE477] hover:!scale-[105%] transform card-play w-12 rounded-full text-lg absolute top-1/2 end-4 h-12 justify-center items-center ${play && state.audio_id == card.id ? "flex" : "hidden"}`}>

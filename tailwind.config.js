@@ -4,6 +4,10 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      colors: {
+        primary: "#1ED05D",
+        secondary: "#b3b3b3"
+      },
       container: {
         center: true,
       }

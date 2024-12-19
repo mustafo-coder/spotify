@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import Cards from "../Cards";
-import { Context } from "../../Context";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  const { state } = useContext(Context);
+  const {artists} = useSelector(state => state.song);
   return (
     <div className="flex gap-2 container">
       <div className="w-[425px] flex-shrink-0 p-5 bg-[#121212] rounded-lg">
@@ -21,9 +21,9 @@ const Home = () => {
         </div>
       </div>
       <div className="w-full flex flex-col gap-7 myScroll p-5 h-[calc(100vh-168px)] overflow-y-scroll bg-gradient-to-t from-[#121212] to-[#222] rounded-lg">
-        <Cards title="Popular Artists" circle={true} playlist={state.artists.slice(0, 6)} />
-        <Cards title="Popular Albums and singles" circle={false} playlist={state.artists.slice(6, 12)} />
-        <Cards title="Popular radio" circle={false} playlist={state.artists.slice(9, 15)} />
+        <Cards title="Popular Artists" circle={true} playlist={artists.slice(0, 6)} />
+        <Cards title="Popular Albums and singles" circle={false} playlist={artists.slice(6, 12)} />
+        <Cards title="Popular radio" circle={false} playlist={artists.slice(9, 15)} />
       </div>
     </div>
   );

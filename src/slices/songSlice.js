@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createSlice } from "@reduxjs/toolkit";
 import {
   Adele,
   LanaMusic,
@@ -6,9 +6,10 @@ import {
   Twenty,
   Twopac,
   Weeknd,
-} from "./assets";
+} from "../assets";
 
 const initialState = {
+  audio_volume: 100,
   artists: [],
   audio: null,
   action: "pause",
@@ -97,34 +98,34 @@ const initialState = {
       id: "1Xyo4u8uXC1ZmMpatF05PJ",
       src: Weeknd,
       title: "Starboy",
-      time:230,
+      time: 230,
     },
-  ]
+  ],
 };
 
-export const Context = createContext();
+const songSlice = createSlice({
+  name: "Songs",
+  initialState,
+  reducers: {
+    set_artists: (state, actions) => {
+      state.artists = actions.payload;
+    },
+    set_action: (state, actions) => {
+      state.action = actions.payload;
+    },
+    set_audio: (state, actions) => {
+      state.audio = actions.payload.audio;
+      state.audio_id = actions.payload.id;
+    },
+    set_currentTime: (state, actions) => {
+      state.currentTime = actions.payload;
+    },
+    set_volume: (state, actions) => {
+      state.audio_volume = actions.payload;
+    },
+  },
+});
 
-const reducer = (state = initialState, actions) => {
-  const { type, payload } = actions;
-  switch (type) {
-    case "SET_ARTISTS":
-      return {...state, artists: payload}
-    case "SET_AUDIO":
-      return {...state, audio: payload.audio, audio_id: payload.id}
-    case "SET_ACTION":
-      return {...state, action: payload}
-    case "SET_CURRENTTIME":
-      return {...state, currentTime: payload}
-    default:
-      return {state}
-  }
-};
-
-const Provider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  return (
-    <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
-  );
-};
-
-export default Provider;
+export const { set_artists, set_action,set_volume, set_audio, set_currentTime } =
+  songSlice.actions;
+export default songSlice.reducer;
